@@ -112,7 +112,7 @@ await handiDream.addProducer(Bob.address, "Bob", "USA", "Navajo")
 Once a producer is added, they can create products:
 
 ```javascript
-await handiDream.createProduct("Handmade Vase", "Ceramic handmade vase.", "Ceramic", "https://example.jpg", Bob.address)
+const productId  = await handiDream.createProduct("Handmade Vase", "Ceramic handmade vase.", "Ceramic", "https://example.jpg", Bob.address)
 ```
 
 ### Retrieve Product Information
@@ -120,5 +120,5 @@ await handiDream.createProduct("Handmade Vase", "Ceramic handmade vase.", "Ceram
 To get information about a specific product, use the `getProductInfo` function with the product ID as an argument:
 
 ```javascript
-productInfo = await handiDream.getProductInfo(${productId})  // replace the actual productId of the product
+productInfo = await handiDream.getProductInfo(productId)
 ```
