@@ -112,7 +112,7 @@ await handiDream.addProducer(Bob.address, "Bob", "USA", "Navajo")
 Once a producer is added, they can create products:
 
 ```javascript
-await handiDream.createProduct("Handmade Vase", "Ceramic handmade vase.", "Ceramic", Bob.address)
+await handiDream.createProduct("Handmade Vase", "Ceramic handmade vase.", "Ceramic", "https://example.jpg", Bob.address)
 ```
 
 ### Retrieve Product Information
