@@ -19,7 +19,7 @@ HandiDream is a blockchain-based platform designed to authenticate and record pr
 1. **Install dependencies:**
 
    ```bash
-   npm install
+   npm init
    npm install --save-dev hardhat
    ```
 
@@ -48,7 +48,7 @@ HandiDream is a blockchain-based platform designed to authenticate and record pr
    };
    ```
 
-   Create a new subdirectory named contracts. Within contracts, create the following smart contract named HandiDream.sol.
+   Within the contracts directory, create the following smart contract named HandiDream.sol (https://github.com/ping8601/handidream-smart-contract/blob/main/HandiDream.sol).
 
 
 3. **Compile the smart contract:**
@@ -58,16 +58,6 @@ HandiDream is a blockchain-based platform designed to authenticate and record pr
    ```bash
    npx hardhat compile
    ```
-
-## Deploying the Smart Contract
-
-To deploy the HandiDream contract, run the following command in the Hardhat environment:
-
-```bash
-npx hardhat run scripts/deploy.js --network localhost
-```
-
-This will output the deployed contract address. Keep this address as it will be used to interact with the contract.
 
 ## Interacting with the Smart Contract
 
@@ -112,7 +102,11 @@ await handiDream.addProducer(Bob.address, "Bob", "USA", "Navajo")
 Once a producer is added, they can create products:
 
 ```javascript
-const productId  = await handiDream.createProduct("Handmade Vase", "Ceramic handmade vase.", "Ceramic", "https://example.jpg", Bob.address)
+const tx  = await handiDream.createProduct("Handmade Vase", "Ceramic handmade vase.", "Ceramic", "https://example.jpg", Bob.address)
+const txReceipt = await tx.wait();
+
+const productCreatedEvent = txReceipt.logs.find(log => log.fragment.name === "ProductCreated");
+const productId = productCreatedEvent.args[0];
 ```
 
 ### Retrieve Product Information
