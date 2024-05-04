@@ -14,6 +14,7 @@ contract HandiDream {
         string name;
         string description;
         string material;
+        string imageUrl;
         Producer producer;
     }
 
@@ -58,7 +59,7 @@ contract HandiDream {
     }
 
     // Function to create a new product
-    function createProduct(string memory _name, string memory _description, string memory _material, address _producerAddress) public returns (uint256) {
+    function createProduct(string memory _name, string memory _description, string memory _material, string memory _imageUrl, address _producerAddress) public returns (uint256) {
         require(trustedProducers[_producerAddress].isAuthenticated, "Producer is not authenticated");
 
         uint256 newProductId = productCount++;
@@ -67,6 +68,7 @@ contract HandiDream {
             name: _name,
             description: _description,
             material: _material,
+            imageUrl: _imageUrl,
             producer: trustedProducers[_producerAddress]
         });
         emit ProductCreated(newProductId);
