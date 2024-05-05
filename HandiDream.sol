@@ -35,7 +35,19 @@ contract HandiDream {
 
     // Modifier to check if the caller is an authenticator
     modifier onlyAuthenticator() {
-        require(msg.sender == owner, "Only authenticator can perform this action");
+        require(
+            msg.sender == owner,
+            "Only authenticator can perform this action"
+        );
+        _;
+    }
+
+    // Modifier to check if the caller is a trusted producer
+    modifier onlyAuthenticatedProducer() {
+        require(
+            trustedProducers[msg.sender].isAuthenticated,
+            "Only trusted producer can perform this action"
+        );
         _;
     }
 
@@ -47,7 +59,12 @@ contract HandiDream {
     }
 
     // Function to add a producer
-    function addProducer(address _producerAddress, string memory _name, string memory _country, string memory _tribe) public onlyAuthenticator {
+    function addProducer(
+        address _producerAddress,
+        string memory _name,
+        string memory _country,
+        string memory _tribe
+    ) public onlyAuthenticator {
         trustedProducers[_producerAddress] = Producer({
             producerAddress: _producerAddress,
             name: _name,
@@ -59,8 +76,17 @@ contract HandiDream {
     }
 
     // Function to create a new product
-    function createProduct(string memory _name, string memory _description, string memory _material, string memory _imageUrl, address _producerAddress) public returns (uint256) {
-        require(trustedProducers[_producerAddress].isAuthenticated, "Producer is not authenticated");
+    function createProduct(
+        string memory _name,
+        string memory _description,
+        string memory _material,
+        string memory _imageUrl,
+        address _producerAddress
+    ) public onlyAuthenticatedProducer returns (uint256) {
+        require(
+            trustedProducers[_producerAddress].isAuthenticated,
+            "Producer is not authenticated"
+        );
 
         uint256 newProductId = productCount++;
         products[newProductId] = Product({
@@ -76,7 +102,9 @@ contract HandiDream {
     }
 
     // Function to get product information by ID
-    function getProductInfo(uint256 _productId) public view returns (Product memory) {
+    function getProductInfo(
+        uint256 _productId
+    ) public view returns (Product memory) {
         require(_productId < productCount, "Product ID does not exist");
         return products[_productId];
     }
