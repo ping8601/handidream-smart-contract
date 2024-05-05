@@ -91,7 +91,8 @@ const [Alice, Bob] = await ethers.getSigners();
 
 ### Add a Producer
 
-Assuming the sender is the authenticator, add a producer to the platform:
+Assuming the owner of the contract is the authenticator, it add an authenticated producer to the platform.
+The producer information required includes producer's address, name, country, and tribe. 
 
 ```javascript
 await handiDream.addProducer(Bob.address, "Bob", "USA", "Navajo")
@@ -99,7 +100,8 @@ await handiDream.addProducer(Bob.address, "Bob", "USA", "Navajo")
 
 ### Create a Product
 
-Once a producer is added, they can create products:
+Once a producer is added, they can create products. Only the authenticated producers are allowed to call this function.
+The product information required includes name, description, material, image URL, and producer address.
 
 ```javascript
 const tx  = await handiDream.createProduct("Handmade Vase", "Ceramic handmade vase.", "Ceramic", "https://example.jpg", Bob.address)
